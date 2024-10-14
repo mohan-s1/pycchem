@@ -209,13 +209,15 @@ def trans_partition(mass:float, temp:np.ndarray, pres:float) -> np.ndarray:
 #-------------------------------------------------------------------------------- */
 # MASTER FUNCTION TO CALCULATE ENTROPY
 
-def calc_entropy(infile:str, temperature:np.ndarray) -> np.ndarray:
+def calc_entropy(infile:str, temperature:np.ndarray, use_low_freq = False) -> np.ndarray:
     """
     _summary_
 
     Args:
-        infile (str): Path to Gaussian log file
-        temperature (np.ndarray): Array (can be 1D) of temperature values to calculate entropy 
+        infile (str): Path to Gaussian frequency log file
+        temperature (np.ndarray): NumPy array (that can be 1D) of temperature values to calculate entropy 
+        use_low_freq (bool, optional): Set to True if you want frequencies < 100 cm^-1 to be included and 
+        set to 100 cm^-1 when reading in log file 
 
     Returns:
         np.ndarray: Return s_trans, s_vib, s_rot over specified temperature in units of J/mol*K
@@ -228,7 +230,11 @@ def calc_entropy(infile:str, temperature:np.ndarray) -> np.ndarray:
     
 
     symmetry_number, rotational_temperatures, molecular_mass = extract_rt_data(infile)
-    found_frequencies = gaussian_parse_frequencies(infile)
+    
+    if use_low_freq == False:
+        found_frequencies = gaussian_parse_frequencies(infile)
+    else:
+        found_frequencies = gaussian_parse_low_frequencies(infile)
     
     q_trans = trans_partition(temp = temperature, mass = molecular_mass, pres = 1)
     q_rot = rot_partition(temp = temperature, sym = symmetry_number, theta_one = rotational_temperatures[0], theta_two = rotational_temperatures[1], theta_three = rotational_temperatures[2])
