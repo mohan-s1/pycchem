@@ -126,7 +126,7 @@ def vibrational_entropy(frequencies_cm1:np.ndarray, temperatures:np.ndarray):
         temperatures (np.ndarray): NumPy array with temperatures to calculate entropy over
 
     Returns:
-        _type_: NumPy array with vibrational entropy 
+        _type_: NumPy array with vibrational entropy with units of J/mol*K
     """
     # Constants
     R = 8.314462618  # Gas constant in J/(mol*K)
@@ -156,3 +156,85 @@ def vibrational_entropy(frequencies_cm1:np.ndarray, temperatures:np.ndarray):
     S_vib = R * np.sum(entropy, axis=0)
     
     return S_vib
+
+def rot_partition(temp: np.ndarray, sym:float,  theta_one:float, theta_two: float, theta_three:float):
+    """
+    Rotational partition function calculated using the equation from https://gaussian.com/wp-content/uploads/dl/thermo.pdf
+    for a non-linear polyatomic molecule 
+
+    Args:
+        temp (np.ndarray): NumPy array for temperatures to calculate rotational entropy over
+        sym (float): Symmetry number for the molecule
+        theta_one (float): First rotational temperature (order of assignment is arbitrary)
+        theta_two (float): Second rotational temperature (order of assignment is arbitrary)
+        theta_three (float): Third rotational temperature (order of assignment is arbitrary)
+
+    Returns:
+        _type_: NumPy array with rotational entropy as a function of temperature with units of J/mol*K
+    """
+    pi = np.pi 
+    return np.array(np.sqrt(pi)/sym * (temp**(3/2) / np.sqrt(theta_one * theta_two * theta_three)))
+
+def trans_partition(mass:float, temp:np.ndarray, pres:float) -> np.ndarray:
+    """
+    _summary_
+
+    Args:
+        mass (float): mass in amu
+        temp (np.ndarray): temperature in kelvin
+        pres (float): pressure in atm
+
+    Returns:
+        np.ndarray: translational partition function at specified temperature(s) with units of J/mol*K
+    """
+    # Constants
+    k_B = 1.380649e-23  # Boltzmann constant in J/K
+    h = 6.62607015e-34  # Planck constant in Js
+    N_A = 6.02214076e23  # Avogadro's number in mol^-1
+    R = 8.314462618  # Gas constant in J/(mol*K)
+    
+    # Convert mass from amu to kg
+    mass_kg = mass * 1.66053906660e-27  # 1 amu = 1.66053906660e-27 kg
+    
+    # Convert pressure from atm to Pa
+    pressure_pa = pres * 101325  # 1 atm = 101325 Pa
+    
+    # Calculate volume using ideal gas law: V = (N_A * k_B * T) / P
+    volume = (N_A * k_B * temp) / pressure_pa
+    
+    # Calculate translation partition function
+    q_trans = ((2 * np.pi * mass_kg * k_B * temp) / (h**2))**(3/2) * (volume / N_A)
+    
+    return np.array(q_trans)
+#-------------------------------------------------------------------------------- */
+# MASTER FUNCTION TO CALCULATE ENTROPY
+
+def calc_entropy(infile:str, temperature:np.ndarray) -> np.ndarray:
+    """
+    _summary_
+
+    Args:
+        infile (str): Path to Gaussian log file
+        temperature (np.ndarray): Array (can be 1D) of temperature values to calculate entropy 
+
+    Returns:
+        np.ndarray: Return s_trans, s_vib, s_rot over specified temperature in units of J/mol*K
+    """
+
+    R = 8.314462618  # Gas constant in J/(mol*K)
+    h = 6.62607015e-34  # Planck constant in Js
+    k_B = 1.380649e-23  # Boltzmann constant in J/K
+    c = 2.99792458e10  # Speed of light in cm/s
+    
+
+    symmetry_number, rotational_temperatures, molecular_mass = extract_rt_data(infile)
+    found_frequencies = gaussian_parse_frequencies(infile)
+    
+    q_trans = trans_partition(temp = temperature, mass = molecular_mass, pres = 1)
+    q_rot = rot_partition(temp = temperature, sym = symmetry_number, theta_one = rotational_temperatures[0], theta_two = rotational_temperatures[1], theta_three = rotational_temperatures[2])
+
+    s_trans = R * (np.log(q_trans) + 5/2)
+    s_rot = R * (np.log(q_rot) + 3/2)
+    s_vib = vibrational_entropy(frequencies_cm1 = found_frequencies, temperatures = temperature)
+
+    return s_trans, s_vib, s_rot
