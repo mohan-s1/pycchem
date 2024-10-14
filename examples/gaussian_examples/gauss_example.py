@@ -1,4 +1,7 @@
-from pycchem import *
+import sys
+sys.path.append("/Users/mohan/pycchem")
+
+from pycchem.gaussian import *
 import numpy as np
 
 infile_path = "/Users/mohan/Desktop/Research/paolucci/data/freq/pd2/square_planar/1_nh3_1_h2o_2_c2h4_c2h4180apart.log"
