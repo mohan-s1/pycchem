@@ -3,8 +3,11 @@ sys.path.append("/Users/mohan/pycchem")
 
 from pycchem.gaussian import *
 import numpy as np
+from pathlib import Path
 
-infile_path = "/Users/mohan/Desktop/Research/paolucci/data/freq/pd2/square_planar/1_nh3_1_h2o_2_c2h4_c2h4180apart.log"
+script_dir = Path(__file__).parent # find parent folder of current file, `gaussian_example.py`
+
+infile_path = script_dir / "1_nh3_3_h2o.log"
 
 temp = np.linspace(100, 300, 100)
 
