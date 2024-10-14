@@ -41,9 +41,6 @@ def gaussian_parse_frequencies(file_path:str):
     
     return frequencies_array
 
-import re
-import numpy as np
-
 def gaussian_parse_low_frequencies(file_path: str):
     """
     Reads in all frequences (units of cm^-1) from Gaussian log file and set anything less than 100 cm^-1 to 100 cm^-1
