@@ -20,7 +20,7 @@ You can install this package by following these three steps:
   
 3) Comment out the top two lines 
 
-`import sys
-sys.path.append("/Users/mohan/pycchem")`
+`import sys`
+`sys.path.append("/Users/mohan/pycchem")`
 
 4) Run the `foo.py` file
