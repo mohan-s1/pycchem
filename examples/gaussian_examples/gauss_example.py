@@ -12,7 +12,7 @@ script_dir = Path(__file__).parent # find parent folder of current file, `gaussi
 
 infile_path = script_dir / "1_nh3_3_h2o.log"
 
-temp = np.linspace(100, 300, 100)
+temp = np.linspace(200, 500, 100)
 
 s_trans, s_vib, s_rot = pcg.calc_entropy(infile = infile_path, temperature = temp, use_low_freq = True) # all entropies in terms of J/mol*K
 
