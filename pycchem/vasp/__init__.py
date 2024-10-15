@@ -1,3 +1,3 @@
-"""Import utilities from gaussian submodule."""
+"""Import utilities from vasp submodule."""
 
 from pycchem.vasp import *
