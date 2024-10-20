@@ -16,12 +16,6 @@ You can install this package by following these three steps:
 
 1) `cd` into the `examples` folder
   
-2) Choose either gaussian_examples or vasp_examples
-  
-3) Comment out the top two lines 
+2) Choose either gaussian_examples, vasp_examples, or misc_examples 
 
-`import sys`
-
-`sys.path.append("/Users/mohan/pycchem")`
-
-4) Run the `foo.py` file
+3) Run the `foo_examples.py` file
