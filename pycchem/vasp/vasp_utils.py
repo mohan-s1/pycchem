@@ -11,7 +11,7 @@
 import re
 import numpy as np
 #-------------------------------------------------------------------------------- */
-def vasp_parse_frequencies(file_path:str)  -> np.ndarray:
+def vasp_freq(file_path:str)  -> np.ndarray:
     """
     Parse an OUTCAR file for all frequencies >= 100 cm^-1 
 
@@ -37,7 +37,7 @@ def vasp_parse_frequencies(file_path:str)  -> np.ndarray:
     
     return np.array(cm1_values)
 
-def vasp_parse_low_frequencies(file_path:str)  -> np.ndarray:
+def vasp_low_freq(file_path:str)  -> np.ndarray:
     """
     Parse an OUTCAR file for all frequencies >= 100 cm^-1 and set all remaining frequencies to 100 cm^-1
 

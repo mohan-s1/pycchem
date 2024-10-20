@@ -33,7 +33,7 @@ def nist_collector(url: str) -> np.ndarray:
         url (str): NIST Janaf table for compound of choice
 
     Returns:
-        np.array: array with temperature (T/K), entropy (S0), enthalpy (H - H0)
+        np.array: array with temperature [K], entropy (S0) [J/K*mol], enthalpy (H - H0) [kJ/mol]
     """
     
     # Send a GET request to the webpage

@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="pycchem",
@@ -8,12 +8,10 @@ setup(
     maintainer_email="mjs7eek@virginia.edu",
     license="MIT",
     url="https://github.com/mohan-s1/pycchem",
-    packages=[
+    packages=find_packages(include=[
         "pycchem",
-        "pycchem.gaussian",
-        "pycchem.vasp",
-        "pycchem.misc_utils",
-    ],
+        "pycchem.*",
+    ]),
     install_requires=[
         "numpy",
         "pandas",

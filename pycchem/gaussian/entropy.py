@@ -3,7 +3,7 @@
 #   University of Virginia
 #   Mohan Shankar
 #
-#   partition_functions.py
+#   entropy.py
 #
 #   This file takes in data from log files of frequency calculations from Gaussian
 #   and applies statistical mechanics to calculate partition functions 
@@ -12,7 +12,7 @@ import numpy as np
 import re
 #-------------------------------------------------------------------------------- */
 # HELPER FUNCTIONS TO READ IN DATA
-def gaussian_parse_frequencies(file_path:str):
+def gauss_freq(file_path:str):
     """
     Reads in all frequences (units of cm^-1) from Gaussian log file and discards anything less than 100 cm^-1
 
@@ -41,7 +41,7 @@ def gaussian_parse_frequencies(file_path:str):
     
     return frequencies_array
 
-def gaussian_parse_low_frequencies(file_path: str):
+def gauss_low_freq(file_path: str):
     """
     Reads in all frequences (units of cm^-1) from Gaussian log file and set anything less than 100 cm^-1 to 100 cm^-1
 
@@ -70,7 +70,7 @@ def gaussian_parse_low_frequencies(file_path: str):
     return frequencies_array
 
 
-def extract_rt_data(file_path:str):
+def gauss_rt_data(file_path:str):
     """
     Define patterns to match the lines with rotational temperatures, symmetry number, and molecular mass
 
@@ -113,7 +113,7 @@ def extract_rt_data(file_path:str):
     
     return symmetry_number, rotational_temperatures, molecular_mass
 #-------------------------------------------------------------------------------- */
-def vibrational_entropy(frequencies_cm1:np.ndarray, temperatures:np.ndarray):
+def vib_entropy(frequencies_cm1:np.ndarray, temperatures:np.ndarray):
     """
     Calculate vibrational entropy from NumPy array of frequencies (units of cm^-1) and temperature (Kelvin)
     Entropy is calculated using the last equation for Sv from https://gaussian.com/wp-content/uploads/dl/thermo.pdf
@@ -226,18 +226,18 @@ def calc_entropy(infile:str, temperature:np.ndarray, use_low_freq = False) -> np
     c = 2.99792458e10  # Speed of light in cm/s
     
 
-    symmetry_number, rotational_temperatures, molecular_mass = extract_rt_data(infile)
+    symmetry_number, rotational_temperatures, molecular_mass = gauss_rt_data(infile)
     
     if use_low_freq == False:
-        found_frequencies = gaussian_parse_frequencies(infile)
+        found_frequencies = gauss_freq(infile)
     else:
-        found_frequencies = gaussian_parse_low_frequencies(infile)
+        found_frequencies = gauss_low_freq(infile)
     
     q_trans = trans_partition(temp = temperature, mass = molecular_mass, pres = 1)
     q_rot = rot_partition(temp = temperature, sym = symmetry_number, theta_one = rotational_temperatures[0], theta_two = rotational_temperatures[1], theta_three = rotational_temperatures[2])
 
     s_trans = R * (np.log(q_trans) + 5/2)
     s_rot = R * (np.log(q_rot) + 3/2)
-    s_vib = vibrational_entropy(frequencies_cm1 = found_frequencies, temperatures = temperature)
+    s_vib = vib_entropy(frequencies_cm1 = found_frequencies, temperatures = temperature)
 
     return s_trans, s_vib, s_rot
