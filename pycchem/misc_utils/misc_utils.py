@@ -14,15 +14,17 @@ from scipy.interpolate import CubicSpline
 import requests
 from bs4 import BeautifulSoup
 #-------------------------------------------------------------------------------- */
-def cubicspline_interp(x_orig: np.ndarray, y_orig: np.ndarray, x_new: np.ndarray) -> np.ndarray:
+def cs_interp(x_orig: np.ndarray, y_orig: np.ndarray, x_new: np.ndarray) -> np.ndarray:
     """
+    Cubic spline interpolator 
+
     Args:
         x_orig (np.ndarray): original x data to interpolate over
         y_orig (np.ndarray): original y data to interpolate over
         x_new (np.ndarray): new range of x values to interpolate over
 
     Returns:
-        np.ndarray: _description_
+        np.ndarray: Interpolated results
     """
     interp = CubicSpline(x_orig, y_orig) 
     return interp(x_new)
