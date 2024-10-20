@@ -1,5 +1,5 @@
-import sys
-sys.path.append("/Users/mohan/pycchem")
+# import sys
+# sys.path.append("/Users/mohan/pycchem")
 
 import pycchem.gaussian as pg
 import pycchem.vasp as pv

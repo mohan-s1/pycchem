@@ -1,5 +1,5 @@
-import sys
-sys.path.append("/Users/mohan/pycchem")
+# import sys
+# sys.path.append("/Users/mohan/pycchem")
 
 import pycchem.misc_utils as pm
 import numpy as np
