@@ -19,7 +19,6 @@ setup(
         "matplotlib",
         "bs4",
         "pytest",
-        "re",
         "scikit-learn",
     ],
     long_description="""Package
