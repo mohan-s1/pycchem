@@ -11,17 +11,18 @@
 import re
 import numpy as np
 #-------------------------------------------------------------------------------- */
-def last_gauss_energy(filename:str) -> float:
+def last_gauss_energy(filename: str) -> float:
     """
-    Finds last energy (units of Hartree) from Gaussian Log file 
+    Finds the last energy (in Hartree) from a Gaussian Log file.
 
     Args:
-        filename (str): Path to log file
+        filename (str): Path to the log file.
 
     Returns:
-        float: Last energy mentioned in Log file (units of Hartree)
+        float: Last energy mentioned in the log file (in Hartree) or 0.0 if not found.
     """
-    pattern = r"SCF Done:  E\(UPBE-PBE\) =  (-?\d+\.\d+)     A\.U\. after    \d+ cycles"
+    # Adjust the pattern to allow for varying spaces and match the format in the log file
+    pattern = r"SCF Done:\s*.*=\s*(-?\d+\.\d+)\s+[aA]\.U\.\s+after"
     last_energy = None
     
     with open(filename, 'r') as file:
@@ -30,4 +31,5 @@ def last_gauss_energy(filename:str) -> float:
             if match:
                 last_energy = float(match.group(1))
     
-    return last_energy
+    # Return 0.0 if no match was found
+    return last_energy if last_energy is not None else 0.0
