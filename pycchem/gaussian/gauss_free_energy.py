@@ -314,4 +314,4 @@ def calc_free_energy(file:str, temperature: np.ndarray, pressure: np.ndarray) ->
         for t, temp in enumerate(temperature): # S_tot is 2D with constant temp along row; constant pres down column 
             for p, pres in enumerate(pressure): # S_tot has units of J/mol*K so div. by 1000 --> kJ
                 delta_g[t][p] = (delta_h[t] * har_to_kjmol) - (temp * (s_tot[t][p])/1000) + (0.008314 * temp * np.log(pres))
-        return (delta_h * har_to_kjmol), s_tot, delta_g
+        return (delta_h * har_to_kjmol), s_tot, delta_g    
