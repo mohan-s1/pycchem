@@ -304,8 +304,6 @@ def calc_free_energy(file:str, temperature: np.ndarray, pressure: np.ndarray) ->
 
     delta_h = calculated_thermal_enthalpy_corr - (ZPE/(1000*har_to_kjmol)) # ∆H in Hartree; NIST H values DO NOT take zero-point energy into account 
 
-    delta_g = None
-
     if s_tot.shape[1] == 1: # transpose from column to row vector to avoid weird broadcasting 
         delta_g = (delta_h * har_to_kjmol) - (temperature * (s_tot.T/1000)) + (8.314/1000) * temperature * np.log((pressure)) # ∆G in kJ/mol
         return (delta_h * har_to_kjmol), s_tot, delta_g
