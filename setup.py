@@ -20,6 +20,10 @@ setup(
         "bs4",
         "pytest",
         "scikit-learn",
+        "pyscf",
+        "geometric",
+        "pyberny",
+        "basis_set_exchange"
     ],
     long_description="""Package
       includes utilties to calculate entropy from Gaussian and VASP frequency calculations.""",
