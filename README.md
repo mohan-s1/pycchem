@@ -8,7 +8,11 @@ You can install this package by following these three steps:
 
 0) `cd`
 
-1) Clone the repository using `git clone https://github.com/mohan-s1/pycchem.git`
+1) Clone the repository using
+
+```
+git clone https://github.com/mohan-s1/pycchem.git
+```
 
 2) Run
 
@@ -17,7 +21,7 @@ export PYTHONPATH=~/pycchem:$PYTHONPATH
 export PATH=~/pycchem/bin:$PATH
 ```
 
-Complete installation of the package by running 
+3) Complete installation of the package by running 
 
 ```
 cd pycchem
