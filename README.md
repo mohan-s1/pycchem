@@ -25,7 +25,7 @@ export PATH=~/pycchem/bin:$PATH
 
 ```
 cd pycchem
-python setup.py install
+pip install .
 ```
 
 ## Testing the Installation:
