@@ -6,11 +6,23 @@ This repository houses many functions I've written to analyze Gaussian and VASP 
 
 You can install this package by following these three steps:
 
+0) `cd`
+
 1) Clone the repository using `git clone https://github.com/mohan-s1/pycchem.git`
 
-2) `cd pycchem` 
+2) Run
 
-3) Install the package using `pip install .`
+```
+export PYTHONPATH=~/pycchem:$PYTHONPATH
+export PATH=~/pycchem/bin:$PATH
+```
+
+Complete installation of the package by running 
+
+```
+cd pycchem
+python setup.py install
+```
 
 ## Testing the Installation:
 
