@@ -19,10 +19,6 @@ setup(
         "matplotlib",
         "bs4",
         "pytest",
-        "scikit-learn",
-        "pyscf",
-        "geometric",
-        "pyberny",
         "basis_set_exchange"
     ],
     long_description="""Package
